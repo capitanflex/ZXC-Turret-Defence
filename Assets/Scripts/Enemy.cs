@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _damage;
     [SerializeField] private float _hp;
     private EnemySpawner _enemySpawner;
+    private GameManager _gameManager;
     private float _currentHp;
     
     private GameObject player;
@@ -16,7 +17,8 @@ public class Enemy : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player");
         _enemySpawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<EnemySpawner>();
-        _currentHp = _hp + (_enemySpawner.waveID^2);
+        _gameManager = GameObject.FindObjectOfType<GameManager>();
+        _currentHp = _hp + (_enemySpawner.waveID*2);
         _damage += (_enemySpawner.waveID * 3);
         print(_currentHp);
     }
@@ -54,6 +56,11 @@ public class Enemy : MonoBehaviour
         _currentHp -= damage;
         if (_currentHp <= 0)
         {
+            if (Random.Range(1,5) == 1)//с шансом 20% падает денежка
+            {
+                _gameManager.ChangeCoinsValue(_enemySpawner.waveID * 2 + 1);
+            }
+            _gameManager.ChangeCashValue(_enemySpawner.waveID*4);
             _enemySpawner._enemiesCount -= 1;
             Destroy(gameObject);
         }

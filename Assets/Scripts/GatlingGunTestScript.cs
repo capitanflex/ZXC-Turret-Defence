@@ -3,30 +3,42 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.IO;
 
 public class GatlingGunTestScript : MonoBehaviour
 {
     public GunParameters _gunParameters;
-    
-    private float _timer;
+
     [SerializeField] private Transform baseRotation;
     [SerializeField] private Transform gunBody;
     [SerializeField] private Transform barrel;
     [SerializeField] private Transform firePoint;
     [SerializeField] private GameObject bullet;
     [SerializeField] private ParticleSystem muzzelFlash;
-    private Animator rotateAnim;
-    private SphereCollider SphereCollider;
+
     
+    private float baseRotationSpeed = 5f;
+    private float _timer;
+    
+    private GameManager _gameManager;
+    private Animator rotateAnim;
+    private SphereCollider _sphereCollider;
     private Queue<GameObject> Enemy;
     private GameObject _currentTarget;
-    
-    
+
+    private void Awake()
+    {
+        _gameManager = FindObjectOfType<GameManager>();
+        _gunParameters = _gameManager._gunParameters;
+    }
+
     private void Start()
         {
             Enemy = new Queue<GameObject>();
             rotateAnim = barrel.GetComponent<Animator>();
-            SphereCollider = GetComponent<SphereCollider>();
+            _sphereCollider = GetComponent<SphereCollider>();
+            UpdateRange();
+            
         }
     
     private void Update()
@@ -40,6 +52,7 @@ public class GatlingGunTestScript : MonoBehaviour
     private void SearchTarget()
     {
         _currentTarget = Enemy.Dequeue();
+        
     }
     
     void OnTriggerEnter(Collider other)
@@ -68,7 +81,11 @@ public class GatlingGunTestScript : MonoBehaviour
         }
         else
         {
-            SearchTarget();
+            if (Enemy.Count != 0)
+            {
+                SearchTarget();
+            }
+            
         }
     }
 
@@ -80,22 +97,13 @@ public class GatlingGunTestScript : MonoBehaviour
         
         Vector3 baselookDirection = targetPostition - baseRotation.position;
         baselookDirection.Normalize();
-        baseRotation.rotation = Quaternion.Slerp(baseRotation.rotation, Quaternion.LookRotation(baselookDirection), _gunParameters.baseRotatinonSpeed * Time.deltaTime);
-        //
-        // Vector3 gunLookDirection = targetPostition - barrel.position;
-        // gunLookDirection.Normalize();
-        // Quaternion barellRotation = Quaternion.Slerp(gunBody.rotation, Quaternion.LookRotation(gunLookDirection), _gunParameters.baseRotatinonSpeed * Time.deltaTime );
-        // gunBody.rotation = new Quaternion(0, barrel.transform.rotation.y, 0, barellRotation.w);
-       
-        
-        
-        
+        baseRotation.rotation = Quaternion.Slerp(baseRotation.rotation, Quaternion.LookRotation(baselookDirection), baseRotationSpeed * Time.deltaTime);
     }
 
 
     public void UpdateRange()
     {
-        GetComponent<SphereCollider>().radius = _gunParameters.firingRange;
+        _sphereCollider.radius = _gunParameters.firingRange;
     }
    
 
