@@ -18,15 +18,20 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void Start()
     {
-        _maxhp = _gameManager._maxhp;
-        _hpRegen = _gameManager._hpRegen;
-        _absoluteDefense = _gameManager._absoluteDefense;
+        _gameManager = FindObjectOfType<GameManager>();
+        UpdateParameters();
         _hp = _maxhp;
     }
 
+    public void UpdateParameters()
+    {
+        _maxhp = _gameManager._maxhp;
+        _hpRegen = _gameManager._hpRegen;
+        _absoluteDefense = _gameManager._absoluteDefense;
+    }
     private void Update()
     {
-        hpGUI.text = "HP: " + _hp;
+        hpGUI.text = "HP: " + (float)Math.Round(_hp);
         HpRegeneration();
     }
 

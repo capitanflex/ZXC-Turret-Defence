@@ -1,8 +1,12 @@
 {
-    "firingRange": 10.239999771118164,
+    "firingRange": 7.0,
     "damage": 3.9000000953674318,
-    "reload": 0.6600000262260437,
-    "maxhp": 110.0,
-    "hpRegen": 2.0,
-    "absoluteDefence": 5.0
+    "reload": 0.2800000011920929,
+    "maxhp": 100.0,
+    "hpRegen": 100.0,
+    "absoluteDefence": 5.0,
+    "cashPerWave": 20,
+    "coinsPerWave": 1,
+    "cashKill": 3,
+    "coinsPerKill": 1
 }

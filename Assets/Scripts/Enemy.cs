@@ -37,7 +37,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            // Attack();
+            Attack();
         }
     }
 
@@ -56,11 +56,11 @@ public class Enemy : MonoBehaviour
         _currentHp -= damage;
         if (_currentHp <= 0)
         {
-            if (Random.Range(1,5) == 1)//с шансом 20% падает денежка
+            if (Random.Range(1,5) == 1)//с шансом 20% падают монеты
             {
-                _gameManager.ChangeCoinsValue(_enemySpawner.waveID * 2 + 1);
+                _gameManager.ChangeCoinsValue(_enemySpawner.waveID*_gameManager.CoinsPerKill);
             }
-            _gameManager.ChangeCashValue(_enemySpawner.waveID*4);
+            _gameManager.ChangeCashValue(_enemySpawner.waveID*_gameManager.CashKill);
             _enemySpawner._enemiesCount -= 1;
             Destroy(gameObject);
         }
