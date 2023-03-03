@@ -35,19 +35,16 @@ public class GameManager : MonoBehaviour
     [Header("Money")]
     public int _coinsCount;
     public int _cashCount;
-
     
     private string savePathParameters;
     private string savePathUpgradesCost;
     private string savePathCoins;
-    private string savePathCash;
-    
+
     [Header("Save config")] 
     [SerializeField] private string saveFileParameters = "parameters.json";
     [SerializeField] private string saveFileUpgradesCost = "UpgradesCost.json";
     [SerializeField] private string saveFileCoins = "coins.json";
-    [SerializeField] private string saveFileCash = "cash.json";
-    
+
     [SerializeField] private TextMeshProUGUI coinsText;
     [SerializeField] private TextMeshProUGUI cashText;
 
@@ -57,20 +54,19 @@ public class GameManager : MonoBehaviour
         savePath = Path.Combine(Application.persistentDataPath, saveFilePatameters);
         savePath = Path.Combine(Application.persistentDataPath, saveFileUpgradesCost);
         savePath = Path.Combine(Application.persistentDataPath, saveFileCoins);
-        savePath = Path.Combine(Application.persistentDataPath, saveFileCash);
 #else
         savePathParameters = Path.Combine(Application.dataPath, saveFileParameters);
         savePathUpgradesCost = Path.Combine(Application.dataPath, saveFileUpgradesCost);
         savePathCoins = Path.Combine(Application.dataPath, saveFileCoins);
-        savePathCash = Path.Combine(Application.persistentDataPath, saveFileCash);
-        
 #endif
+        
         LoadParametersFromFile();
         LoadCoinsFromFile();
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             LoadCoinsUpgradesCostFromFile();
         }
+        
     }
 
     public void ChangeCoinsValue(int value)
@@ -177,6 +173,8 @@ public class GameManager : MonoBehaviour
             CoinsStruct parametersFromJson = JsonUtility.FromJson<CoinsStruct>(json);
 
             ChangeCoinsValue(parametersFromJson.coins);
+            
+            
         }
         catch (Exception e)
         {
@@ -249,9 +247,8 @@ public class GameManager : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        //SaveCoinsToFile();
-        // SaveCoinsUpgradesCostToFile();
-        
+        SaveCoinsToFile();
+        SaveCoinsUpgradesCostToFile();
     }
 
     public void StartBattleButton()

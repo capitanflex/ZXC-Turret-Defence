@@ -11,6 +11,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float _timeBetweenSpawn;
     [SerializeField] private float _timeBetweenWaves;
     [SerializeField] private int enemyCountInWave;
+    [SerializeField] private float _enemyHp;
+    [SerializeField] private float _enemyDamage;
     
     [SerializeField] private List<Transform> _spawnPoints;
     [SerializeField] private TextMeshProUGUI _wavesText;
@@ -19,10 +21,14 @@ public class EnemySpawner : MonoBehaviour
     public int waveID;
     public int _enemiesCount;
     
+    public bool canMove = true;
+    
+    
     
     private void Start()
     {
         StartCoroutine(DelaySpawn());
+        canMove = true;
     }
 
     private void Update()
@@ -38,8 +44,10 @@ public class EnemySpawner : MonoBehaviour
         waveID += 1;
         enemyCountInWave += 5 + waveID ^ 2;
         _enemiesCount += enemyCountInWave;
+        _enemyHp = _enemyHp * 1.15f + 2;
+        _enemyDamage = _enemyDamage * 1.13f + 2;
 
-        if (_timeBetweenSpawn >= 0.2f)
+        if (_timeBetweenSpawn >= 0.15f)
         {
             _timeBetweenSpawn -= 0.1f;
         }
@@ -47,8 +55,13 @@ public class EnemySpawner : MonoBehaviour
     
     private void Spawn()
     {
+        if (canMove)
+        {
+            GameObject enemy = Instantiate(_enemy, _spawnPoints[Random.Range(0, _spawnPoints.Count)].position, _spawnPoints[Random.Range(0, _spawnPoints.Count)].rotation );
+            enemy.GetComponent<Enemy>().SetStats(_enemyHp, _enemyDamage);
+        }
+
         
-        Instantiate(_enemy, _spawnPoints[Random.Range(0, _spawnPoints.Count)].position, _spawnPoints[Random.Range(0, _spawnPoints.Count)].rotation );
     }
 
     private IEnumerator DelaySpawn()

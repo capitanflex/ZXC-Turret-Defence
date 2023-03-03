@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -13,12 +14,16 @@ public class PlayerBehaviour : MonoBehaviour
     public float _absoluteDefense;
 
     [SerializeField] private TextMeshProUGUI hpGUI;
-    
+    [SerializeField]private GameObject loseMenu;
     private GameManager _gameManager;
+    private EnemySpawner _enemySpawner;
+   
 
     private void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        _enemySpawner = FindObjectOfType<EnemySpawner>();
+        
         UpdateParameters();
         _hp = _maxhp;
     }
@@ -39,12 +44,15 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (_absoluteDefense - damage < 0)
         {
-            _hp -= _absoluteDefense - damage;
+            _hp -= Mathf.Abs(_absoluteDefense - damage);
         }
         
         if (_hp <= 0)
         {
-            Destroy(gameObject);
+            print("bhljfasbhjkasf");
+            _hp = 0;
+            _enemySpawner.canMove = false;
+            DieAnim();
         }
     }
 
@@ -56,5 +64,14 @@ public class PlayerBehaviour : MonoBehaviour
         }
         
     }
+
+    public void DieAnim()
+    {
+        loseMenu.SetActive(true);
+        loseMenu.GetComponent<Animation>().Play();
+        GameObject.Find("Interface").SetActive(false);
+    }
+
+    
 
 }

@@ -129,7 +129,7 @@ public class Upgrades : MonoBehaviour
     
     public void AttackUpgrade()
     {
-        
+        print(_gameManager._cashCount );
         if (_sceneId == 0 && _gameManager._coinsCount >= _gameManager._damageCost)
         {
             _gameManager.ChangeCoinsValue(-_gameManager._damageCost);
@@ -143,6 +143,7 @@ public class Upgrades : MonoBehaviour
             _gameManager._gunParameters.damage = (float)Math.Round(_gameManager._gunParameters.damage * 1.25f, 2);
             _cashPrice = (int)Math.Round(_cashPrice * 1.3f, 2);
             textCostUpgrade.text = "Cost: " + _cashPrice + "$";
+            print("buy");
         }
         textButtonInfo.text = "Damage \n Current: " + _gameManager._gunParameters.damage;
     }
@@ -154,7 +155,7 @@ public class Upgrades : MonoBehaviour
         if (_sceneId == 0 && _gameManager._coinsCount >= _gameManager._reloadCost)
         {
             _gameManager.ChangeCoinsValue(-_gameManager._reloadCost);
-            _gameManager._gunParameters.reload = (float)Math.Round(_gameManager._gunParameters.reload * 0.9f, 2);
+            _gameManager._gunParameters.reload = (float)Math.Round(_gameManager._gunParameters.reload * 0.93f, 2);
             _gameManager._reloadCost = (int)Math.Round(_gameManager._reloadCost*1.4f);
             textCostUpgrade.text = "Cost: " + _gameManager._reloadCost + "₵";
         }
@@ -163,7 +164,7 @@ public class Upgrades : MonoBehaviour
             _gameManager.ChangeCashValue(-_cashPrice);
             _cashPrice = (int)Math.Round(_cashPrice * 1.3f, 2);
             textCostUpgrade.text = "Cost: " + _cashPrice + "$";
-            _gameManager._gunParameters.reload = (float)Math.Round(_gameManager._gunParameters.reload * 0.9f, 2);
+            _gameManager._gunParameters.reload = (float)Math.Round(_gameManager._gunParameters.reload * 0.93f, 2);
 
         }
         textButtonInfo.text = "Reload \n Current: " + _gameManager._gunParameters.reload;
@@ -183,7 +184,7 @@ public class Upgrades : MonoBehaviour
         if(_sceneId == 1 && _gameManager._cashCount >= _cashPrice)
         {
             _gameManager.ChangeCashValue(-_cashPrice);
-            _cashPrice = (int)Math.Round(_cashPrice * 1.3f, 2);
+            _cashPrice = (int)Math.Round(_cashPrice * 1.2f, 2);
             textCostUpgrade.text = "Cost: " + _cashPrice + "$";
             _gatlingGunTestScript.UpdateRange();
             _gameManager._gunParameters.firingRange = (float)Math.Round(_gameManager._gunParameters.firingRange * 1.05f, 2);
@@ -200,9 +201,9 @@ public class Upgrades : MonoBehaviour
         if (_sceneId == 0 && _gameManager._coinsCount >= _gameManager._maxhpCost)
         {
             _gameManager.ChangeCoinsValue(-_gameManager._maxhpCost);
-            _gameManager._maxhpCost = (int)Math.Round(_gameManager._maxhpCost*1.35f);
+            _gameManager._maxhpCost = (int)Math.Round(_gameManager._maxhpCost*1.4f);
             textCostUpgrade.text = "Cost: " + _gameManager._maxhpCost + "₵";
-            _gameManager._maxhp = (float)Math.Round(_gameManager._maxhp * 1.1f);
+            _gameManager._maxhp = (float)Math.Round(_gameManager._maxhp * 1.13f);
         }
         if(_sceneId == 1 && _gameManager._cashCount >= _cashPrice)
         {
@@ -210,7 +211,7 @@ public class Upgrades : MonoBehaviour
             _cashPrice = (int)Math.Round(_cashPrice * 1.3f, 2);
             textCostUpgrade.text = "Cost: " + _cashPrice + "$";
             _playerBehaviour.UpdateParameters();
-            _gameManager._maxhp = (float)Math.Round(_gameManager._maxhp * 1.1f);
+            _gameManager._maxhp = (float)Math.Round(_gameManager._maxhp * 1.13f);
 
         }
         textButtonInfo.text = "MaxHp \n Current: " + _gameManager._maxhp;
@@ -231,10 +232,10 @@ public class Upgrades : MonoBehaviour
         if(_sceneId == 1 && _gameManager._cashCount >= _cashPrice)
         {
             _gameManager.ChangeCashValue(-_cashPrice);
-            _cashPrice = (int)Math.Round(_cashPrice * 1.3f, 2);
+            _cashPrice = (int)Math.Round(_cashPrice * 1.2f, 2);
             textCostUpgrade.text = "Cost: " + _cashPrice + "$";
             _playerBehaviour.UpdateParameters();
-            _gameManager._hpRegen = (float)Math.Round(_gameManager._hpRegen * 1.15f, 1);
+            _gameManager._hpRegen = (float)Math.Round(_gameManager._hpRegen * 1.15f, 1) + 1;
         }
         textButtonInfo.text = "HP regen \n Current: " + _gameManager._hpRegen;
     }
@@ -247,7 +248,7 @@ public class Upgrades : MonoBehaviour
         if (_sceneId == 0 && _gameManager._coinsCount >= _gameManager._absoluteDefenseCost)
         {
             _gameManager.ChangeCoinsValue(-_gameManager._absoluteDefenseCost);
-            _gameManager._absoluteDefenseCost = (int)Math.Round(_gameManager._absoluteDefenseCost*1.3f);
+            _gameManager._absoluteDefenseCost = (int)Math.Round(_gameManager._absoluteDefenseCost*1.4f);
             textCostUpgrade.text = "Cost: " + _gameManager._absoluteDefenseCost + "₵";
             _gameManager._absoluteDefense = (float)Math.Round(_gameManager._absoluteDefense * 1.15f + 1, 1);
         }

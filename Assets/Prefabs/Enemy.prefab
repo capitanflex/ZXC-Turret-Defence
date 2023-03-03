@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1837819823665990428}
   - component: {fileID: 1837819823665990429}
   - component: {fileID: 1837819823665990425}
+  - component: {fileID: 2481938733454570485}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -57,9 +58,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 2
-  _attackRange: 2
+  _attackRange: 1.6
+  _attackSpeed: 1
   _damage: 2
-  _hp: 5
 --- !u!23 &1837819823665990428
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -80,7 +81,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5af1f6ae5b04320488ba1d8add337091, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -131,3 +132,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!111 &2481938733454570485
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1837819823665990418}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 656d78500f042684a888b02f2330f257, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 656d78500f042684a888b02f2330f257, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0

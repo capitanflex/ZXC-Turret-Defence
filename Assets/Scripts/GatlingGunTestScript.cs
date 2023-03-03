@@ -20,7 +20,10 @@ public class GatlingGunTestScript : MonoBehaviour
     private float baseRotationSpeed = 5f;
     private float _timer;
     
+    
     private GameManager _gameManager;
+    private SoundManager _soundManager;
+    private EnemySpawner _enemySpawner;
     private Animator rotateAnim;
     private SphereCollider _sphereCollider;
     private Queue<GameObject> Enemy;
@@ -29,12 +32,14 @@ public class GatlingGunTestScript : MonoBehaviour
     private void Awake()
     {
         _gameManager = FindObjectOfType<GameManager>();
+        _soundManager = FindObjectOfType<SoundManager>();
         _gunParameters = _gameManager._gunParameters;
     }
 
     private void Start()
         {
             Enemy = new Queue<GameObject>();
+            _enemySpawner = FindObjectOfType<EnemySpawner>();
             rotateAnim = barrel.GetComponent<Animator>();
             _sphereCollider = GetComponent<SphereCollider>();
             UpdateRange();
@@ -43,8 +48,12 @@ public class GatlingGunTestScript : MonoBehaviour
     
     private void Update()
     {
-        Debug.DrawRay(firePoint.position, firePoint.forward * 100f, Color.red);
-        AimAndFire();
+        
+        if (_enemySpawner.canMove)
+        {
+            Debug.DrawRay(firePoint.position, firePoint.forward * 100f, Color.red);
+            AimAndFire();
+        }
     }
 
     
@@ -112,6 +121,7 @@ public class GatlingGunTestScript : MonoBehaviour
     { 
        var _bullet = Instantiate(bullet, firePoint.position, firePoint.rotation);
        _bullet.GetComponent<Bullet>().damage = _gunParameters.damage;
+       _soundManager.PlaySound("shot");
     }
 
     

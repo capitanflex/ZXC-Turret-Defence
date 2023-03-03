@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -5,27 +6,43 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _attackRange;
     [SerializeField] private float _damage;
-    [SerializeField] private float _hp;
     private EnemySpawner _enemySpawner;
     private GameManager _gameManager;
+    private Animation _animation;
     private float _currentHp;
+
+    
     
     private GameObject player;
     private PlayerBehaviour _playerBehaviour;
 
+    private float time;
+
     private void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+
+        _animation = GetComponent<Animation>();
         _enemySpawner = GameObject.FindGameObjectWithTag("Spawner").GetComponent<EnemySpawner>();
-        _gameManager = GameObject.FindObjectOfType<GameManager>();
-        _currentHp = _hp + (_enemySpawner.waveID*2);
-        _damage += (_enemySpawner.waveID * 3);
+        _gameManager = FindObjectOfType<GameManager>();
+        _playerBehaviour = FindObjectOfType<PlayerBehaviour>();
+        player = _playerBehaviour.gameObject;
+
+    }
+
+    public void SetStats(float hp, float damage)
+    {
+        _currentHp = hp;
+        _damage = damage;
         print(_currentHp);
     }
 
     private void Update()
     {
-        Move();
+        if (_enemySpawner.canMove)
+        {
+           Move(); 
+        }
+        
     }
 
     private void Move()
@@ -37,7 +54,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            Attack();
+            _animation.Play();
         }
     }
 
@@ -46,9 +63,13 @@ public class Enemy : MonoBehaviour
         return Vector3.Distance(player.transform.position, transform.position);
     }
 
-    private void Attack()
+    public void Attack()
     {
-        _playerBehaviour.GetDamage(_damage);
+           _playerBehaviour.GetDamage(_damage);
+       
+        
+       
+        
     }
 
     public void GetDamage(float damage)
@@ -58,12 +79,14 @@ public class Enemy : MonoBehaviour
         {
             if (Random.Range(1,5) == 1)//с шансом 20% падают монеты
             {
-                _gameManager.ChangeCoinsValue(_enemySpawner.waveID*_gameManager.CoinsPerKill);
+                _gameManager.ChangeCoinsValue(_gameManager.CoinsPerKill);
             }
-            _gameManager.ChangeCashValue(_enemySpawner.waveID*_gameManager.CashKill);
+            _gameManager.ChangeCashValue(_gameManager.CashKill);
             _enemySpawner._enemiesCount -= 1;
             Destroy(gameObject);
         }
     }
+    
+    
     
 }
