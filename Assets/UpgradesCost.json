@@ -1,12 +1,12 @@
 {
-    "firingRangeCost": 8,
-    "damageCost": 32,
-    "reloadCost": 20,
-    "maxhpCost": 10,
-    "hpRegenCost": 10,
-    "absoluteDefenseCost": 39,
-    "cashPerWaveCost": 30,
-    "coinsPerWaveCost": 50,
-    "cashKillCost": 10,
-    "coinsPerKillCost": 153
+    "firingRangeCost": 15,
+    "damageCost": 20,
+    "reloadCost": 18,
+    "maxhpCost": 20,
+    "hpRegenCost": 15,
+    "absoluteDefenseCost": 25,
+    "cashPerWaveCost": 35,
+    "coinsPerWaveCost": 40,
+    "cashKillCost": 40,
+    "coinsPerKillCost": 60
 }

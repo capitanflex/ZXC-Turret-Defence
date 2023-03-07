@@ -40,8 +40,6 @@ public class RandomBGmusic : MonoBehaviour
     }
     public void PlaySound(string SoundName)
     {
-        print(SoundName);
-        
         var sound = GetSoundByName(SoundName);
         audioSource.clip = sound.clip;
         audioSource.outputAudioMixerGroup = _musicMixer;

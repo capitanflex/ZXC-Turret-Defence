@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -12,6 +9,7 @@ public class PauseAndTimeScale : MonoBehaviour
 
     private void Start()
     {
+        Time.timeScale = 1f;
         _gameManager = FindObjectOfType<GameManager>();
     }
 

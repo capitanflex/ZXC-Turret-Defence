@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -39,26 +37,21 @@ public class GameManager : MonoBehaviour
     private string savePathParameters;
     private string savePathUpgradesCost;
     private string savePathCoins;
-
-    [Header("Save config")] 
-    [SerializeField] private string saveFileParameters = "parameters.json";
-    [SerializeField] private string saveFileUpgradesCost = "UpgradesCost.json";
-    [SerializeField] private string saveFileCoins = "coins.json";
+    
 
     [SerializeField] private TextMeshProUGUI coinsText;
     [SerializeField] private TextMeshProUGUI cashText;
 
     private void Awake()
     {
-#if UNITY_ANDROID && !UNITY_EDITOR
-        savePath = Path.Combine(Application.persistentDataPath, saveFilePatameters);
-        savePath = Path.Combine(Application.persistentDataPath, saveFileUpgradesCost);
-        savePath = Path.Combine(Application.persistentDataPath, saveFileCoins);
-#else
-        savePathParameters = Path.Combine(Application.dataPath, saveFileParameters);
-        savePathUpgradesCost = Path.Combine(Application.dataPath, saveFileUpgradesCost);
-        savePathCoins = Path.Combine(Application.dataPath, saveFileCoins);
-#endif
+       
+        if (!PlayerPrefs.HasKey("firstTime")) {
+            PlayerPrefs.SetInt("firstTime", 1);
+            SaveParametersToFile();
+            SaveCoinsToFile();
+            SaveCoinsUpgradesCostToFile();
+            print("firstTime");
+        }
         
         LoadParametersFromFile();
         LoadCoinsFromFile();
@@ -81,164 +74,76 @@ public class GameManager : MonoBehaviour
         cashText.text = "Cash: " + _cashCount + "$";
     }
 
+    private void ifFirstTimeOpen()
+    {
+        
+    }
     public void SaveParametersToFile()
     {
-        GunParametersStruct gameCore = new GunParametersStruct()
-        {
-            damage = _gunParameters.damage,
-            reload = _gunParameters.reload,
-            firingRange = _gunParameters.firingRange,
-            maxhp = _maxhp,
-            absoluteDefence = _absoluteDefense,
-            hpRegen = _hpRegen,
-            cashPerWave = CashPerWave,
-            coinsPerWave = CoinsPerWave,
-            cashKill = CashKill,
-            coinsPerKill = CoinsPerKill
-            
-        };
-
-        string json = JsonUtility.ToJson(gameCore, true);
-
-        try
-        {
-            File.WriteAllText(savePathParameters, json);
-        }
-        catch (Exception e)
-        {
-            Debug.Log( "{GameLog} => [GameCore] - (<color=red>Error</color>) - SaveToFile" + e.Message);
-        }
+        PlayerPrefs.SetFloat("damage",_gunParameters.damage);
+        PlayerPrefs.SetFloat("reload",_gunParameters.reload);
+        PlayerPrefs.SetFloat("firingRange",_gunParameters.firingRange);
+        PlayerPrefs.SetFloat("maxhp",_maxhp);
+        PlayerPrefs.SetFloat("absoluteDefence",_absoluteDefense);
+        PlayerPrefs.SetFloat("hpRegen",_hpRegen);
+        PlayerPrefs.SetInt("cashPerWave",CashPerWave);
+        PlayerPrefs.SetInt("cashPerWave",CoinsPerWave);
+        PlayerPrefs.SetInt("cashKill",CashKill);
+        PlayerPrefs.SetInt("coinsPerKill",CoinsPerKill);
     }
     
     public void LoadParametersFromFile()
     {
-        if (!File.Exists(savePathParameters))
-        {
-            Debug.Log("{GameLog} => [GameCore] - LoadFromFile -> File Not Found");
-            return;
-        }
-
-        try
-        {
-            string json = File.ReadAllText(savePathParameters);
-            GunParametersStruct parametersFromJson = JsonUtility.FromJson<GunParametersStruct>(json);
-
-            _gunParameters.damage = parametersFromJson.damage;
-            _gunParameters.reload = parametersFromJson.reload;
-            _gunParameters.firingRange = parametersFromJson.firingRange;
-            _maxhp = parametersFromJson.maxhp;
-            _absoluteDefense = parametersFromJson.absoluteDefence;
-            _hpRegen = parametersFromJson.hpRegen;
-            CashPerWave = parametersFromJson.cashPerWave;
-            CoinsPerWave = parametersFromJson.coinsPerWave;
-            CashKill = parametersFromJson.cashKill;
-            CoinsPerKill = parametersFromJson.coinsPerKill;
-        }
-        catch (Exception e)
-        {
-            Debug.Log( "{GameLog} => [GameCore] - (<color=red>Error</color>) - SaveToFile" + e.Message);
-        }
+        _gunParameters.damage = PlayerPrefs.GetFloat("damage");
+        _gunParameters.reload = PlayerPrefs.GetFloat("reload");
+        _gunParameters.firingRange =  PlayerPrefs.GetFloat("firingRange");
+        _maxhp =  PlayerPrefs.GetFloat("maxhp");
+        _absoluteDefense = PlayerPrefs.GetFloat("absoluteDefence");
+        _hpRegen = PlayerPrefs.GetFloat("hpRegen");
+        CashPerWave = PlayerPrefs.GetInt("cashPerWave");
+        CoinsPerWave = PlayerPrefs.GetInt("cashPerWave");
+        CashKill = PlayerPrefs.GetInt("cashKill");
+        CoinsPerKill = PlayerPrefs.GetInt("coinsPerKill");
     }
     
     public void SaveCoinsToFile()
     {
-        CoinsStruct gameCore = new CoinsStruct()
-        {
-            coins = _coinsCount
-        };
-
-        string json = JsonUtility.ToJson(gameCore, true);
-
-        try
-        {
-            File.WriteAllText(savePathCoins, json);
-        }
-        catch (Exception e)
-        {
-            Debug.Log( "{GameLog} => [GameCore] - (<color=red>Error</color>) - SaveToFile" + e.Message);
-        }
+        PlayerPrefs.SetInt("coins",_coinsCount);
     }
     
     public void LoadCoinsFromFile()
     {
-        if (!File.Exists(savePathCoins))
-        {
-            Debug.Log("{GameLog} => [GameCore] - LoadFromFile -> File Not Found");
-            return;
-        }
-
-        try
-        {
-            string json = File.ReadAllText(savePathCoins);
-            CoinsStruct parametersFromJson = JsonUtility.FromJson<CoinsStruct>(json);
-
-            ChangeCoinsValue(parametersFromJson.coins);
-            
-            
-        }
-        catch (Exception e)
-        {
-            Debug.Log( "{GameLog} => [GameCore] - (<color=red>Error</color>) - SaveToFile" + e.Message);
-        }
+        _coinsCount = PlayerPrefs.GetInt("coins");
+        coinsText.text = "Coins: " + _coinsCount + "₵";
     }
     
     public void SaveCoinsUpgradesCostToFile()
     {
-        CoinsUpgradesCostStruct gameCore = new CoinsUpgradesCostStruct()
-        {
-            damageCost = _damageCost,
-            reloadCost = _reloadCost,
-            firingRangeCost = _firingRangeCost,
-            maxhpCost = _maxhpCost,
-            absoluteDefenseCost = _absoluteDefenseCost,
-            hpRegenCost = _hpRegenCost,
-            cashPerWaveCost = _cashPerWaveCost,
-            coinsPerWaveCost = _coinsPerWaveCost,
-            cashKillCost = _cashKillCost,
-            coinsPerKillCost = _coinsPerKillCost
-            
-        };
-
-        string json = JsonUtility.ToJson(gameCore, true);
-
-        try
-        {
-            File.WriteAllText(savePathUpgradesCost, json);
-        }
-        catch (Exception e)
-        {
-            Debug.Log( "{GameLog} => [GameCore] - (<color=red>Error</color>) - SaveToFile" + e.Message);
-        }
+        PlayerPrefs.SetInt("damageCost",_damageCost);
+        PlayerPrefs.SetInt("reloadCost",_reloadCost);
+        PlayerPrefs.SetInt("firingRangeCost",_firingRangeCost);
+        PlayerPrefs.SetInt("absoluteDefenseCost",_absoluteDefenseCost);
+        PlayerPrefs.SetInt("hpRegenCost",_hpRegenCost);
+        PlayerPrefs.SetInt("maxhpCost",_maxhpCost);
+        PlayerPrefs.SetInt("cashPerWaveCost",_cashPerWaveCost);
+        PlayerPrefs.SetInt("coinsPerWaveCost",_coinsPerWaveCost);
+        PlayerPrefs.SetInt("cashKillCost",_cashKillCost);
+        PlayerPrefs.SetInt("coinsPerKillCost",_coinsPerKillCost);
     }
     
     public void LoadCoinsUpgradesCostFromFile()
     {
-        if (!File.Exists(savePathUpgradesCost))
-        {
-            Debug.Log("{GameLog} => [GameCore] - LoadFromFile -> File Not Found");
-            return;
-        }
-
-        try
-        {
-            string json = File.ReadAllText(savePathUpgradesCost);
-            CoinsUpgradesCostStruct parametersFromJson = JsonUtility.FromJson<CoinsUpgradesCostStruct>(json);
-
-            _damageCost = parametersFromJson.damageCost;
-            _reloadCost = parametersFromJson.reloadCost;
-            _firingRangeCost = parametersFromJson.firingRangeCost;
-            _maxhpCost = parametersFromJson.maxhpCost;
-            _absoluteDefenseCost = parametersFromJson.absoluteDefenseCost;
-            _hpRegenCost = parametersFromJson.hpRegenCost;
-            _cashPerWaveCost = parametersFromJson.cashPerWaveCost;
-            _coinsPerWaveCost = parametersFromJson.coinsPerWaveCost;
-            _cashKillCost = parametersFromJson.cashKillCost;
-            _coinsPerKillCost = parametersFromJson.coinsPerKillCost;
-        }
-        catch (Exception e)
-        {
-            Debug.Log( "{GameLog} => [GameCore] - (<color=red>Error</color>) - SaveToFile" + e.Message);
-        }
+        _damageCost = PlayerPrefs.GetInt("damageCost");
+        _reloadCost = PlayerPrefs.GetInt("reloadCost");
+        _firingRangeCost = PlayerPrefs.GetInt("firingRangeCost");
+        _absoluteDefenseCost = PlayerPrefs.GetInt("absoluteDefenseCost");
+        _maxhpCost = PlayerPrefs.GetInt("maxhpCost");
+        _hpRegenCost = PlayerPrefs.GetInt("hpRegenCost");
+        _cashPerWaveCost = PlayerPrefs.GetInt("cashPerWaveCost");
+        _coinsPerWaveCost = PlayerPrefs.GetInt("coinsPerWaveCost");
+        _cashKillCost = PlayerPrefs.GetInt("cashKillCost");
+        _coinsPerKillCost = PlayerPrefs.GetInt("coinsPerKillCost");
+   
     }
     
     
@@ -249,6 +154,13 @@ public class GameManager : MonoBehaviour
     {
         SaveCoinsToFile();
         SaveCoinsUpgradesCostToFile();
+    }
+
+    public void Quit()
+    {
+        SaveCoinsToFile();
+        SaveCoinsUpgradesCostToFile();
+        Application.Quit();
     }
 
     public void StartBattleButton()
