@@ -73,11 +73,7 @@ public class GameManager : MonoBehaviour
         _cashCount += value;
         cashText.text = "Cash: " + _cashCount + "$";
     }
-
-    private void ifFirstTimeOpen()
-    {
-        
-    }
+    
     public void SaveParametersToFile()
     {
         PlayerPrefs.SetFloat("damage",_gunParameters.damage);

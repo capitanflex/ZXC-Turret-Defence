@@ -49,7 +49,6 @@ public class PlayerBehaviour : MonoBehaviour
         
         if (_hp <= 0)
         {
-            print("bhljfasbhjkasf");
             _hp = 0;
             _enemySpawner.canMove = false;
             DieAnim();
@@ -69,7 +68,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         loseMenu.SetActive(true);
         loseMenu.GetComponent<Animation>().Play();
-        GameObject.Find("Interface").SetActive(false);
+        GameObject.Find("Main Interface").SetActive(false);
     }
 
     

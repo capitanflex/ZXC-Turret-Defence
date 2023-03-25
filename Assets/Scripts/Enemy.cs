@@ -33,7 +33,7 @@ public class Enemy : MonoBehaviour
     {
         _currentHp = hp;
         _damage = damage;
-        print(_currentHp);
+        
     }
 
     private void Update()

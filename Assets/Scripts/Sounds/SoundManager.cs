@@ -14,7 +14,7 @@ public class SoundManager : MonoBehaviour
     
     public void PlaySound(string SoundName)
     {
-        print(SoundName);
+        
         var audioSource = gameObject.AddComponent<AudioSource>();
         var sound = GetSoundByName(SoundName);
         audioSource.clip = sound.clip;

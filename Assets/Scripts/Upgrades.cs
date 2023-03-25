@@ -13,7 +13,6 @@ public class Upgrades : MonoBehaviour
     [Header("Cash price")]
     [SerializeField] private int _cashPrice;
     
-    
     [SerializeField] private TextMeshProUGUI textButtonInfo;
     [SerializeField] private TextMeshProUGUI textCostUpgrade;
     
@@ -22,17 +21,12 @@ public class Upgrades : MonoBehaviour
     private GatlingGunTestScript _gatlingGunTestScript;
 
     private int _sceneId;
-  
     
-    
-
     private void Start()
     {
         _gameManager = FindObjectOfType<GameManager>();
         _playerBehaviour = FindObjectOfType<PlayerBehaviour>();
         _gatlingGunTestScript = FindObjectOfType<GatlingGunTestScript>();
-        
-        
         
         if (_button == ButtonsList.Damage)
         {
@@ -129,7 +123,6 @@ public class Upgrades : MonoBehaviour
     
     public void AttackUpgrade()
     {
-        print(_gameManager._cashCount );
         if (_sceneId == 0 && _gameManager._coinsCount >= _gameManager._damageCost)
         {
             _gameManager.ChangeCoinsValue(-_gameManager._damageCost);
@@ -143,15 +136,13 @@ public class Upgrades : MonoBehaviour
             _gameManager._gunParameters.damage = (float)Math.Round(_gameManager._gunParameters.damage * 1.25f, 2);
             _cashPrice = (int)Math.Round(_cashPrice * 1.3f, 2);
             textCostUpgrade.text = "Cost: " + _cashPrice + "$";
-            print("buy");
+            
         }
         textButtonInfo.text = "Damage \n Current: " + _gameManager._gunParameters.damage;
     }
 
     public void SpeedUpgrade()
     {
- 
-        
         if (_sceneId == 0 && _gameManager._coinsCount >= _gameManager._reloadCost)
         {
             _gameManager.ChangeCoinsValue(-_gameManager._reloadCost);
@@ -172,8 +163,6 @@ public class Upgrades : MonoBehaviour
     
     public void DistanceUpgrade()
     {
-        
-        
         if (_sceneId == 0 && _gameManager._coinsCount >= _gameManager._firingRangeCost)
         {
             _gameManager.ChangeCoinsValue(-_gameManager._firingRangeCost);
@@ -195,9 +184,6 @@ public class Upgrades : MonoBehaviour
     
     public void MaxHpUpgrade()
     {
-        
-        
-
         if (_sceneId == 0 && _gameManager._coinsCount >= _gameManager._maxhpCost)
         {
             _gameManager.ChangeCoinsValue(-_gameManager._maxhpCost);
@@ -219,9 +205,6 @@ public class Upgrades : MonoBehaviour
     
     public void RegenUpgrade()
     {
-        
-        
-        
         if (_sceneId == 0 && _gameManager._coinsCount >= _gameManager._hpRegenCost)
         {
             _gameManager.ChangeCoinsValue(-_gameManager._hpRegenCost);
@@ -242,9 +225,6 @@ public class Upgrades : MonoBehaviour
     
     public void AbsoluteDefenseUpgrade()
     {
-       
-        
-        
         if (_sceneId == 0 && _gameManager._coinsCount >= _gameManager._absoluteDefenseCost)
         {
             _gameManager.ChangeCoinsValue(-_gameManager._absoluteDefenseCost);
@@ -266,8 +246,6 @@ public class Upgrades : MonoBehaviour
     
     public void CoinsPerWaveUpgrade()
     {
-        
-        
         if (_sceneId == 0 && _gameManager._coinsCount >= _gameManager._coinsPerWaveCost)
         {
             _gameManager.ChangeCoinsValue(-_gameManager._coinsPerWaveCost);
@@ -281,15 +259,12 @@ public class Upgrades : MonoBehaviour
             _cashPrice = (int)Math.Round(_cashPrice * 1.3f, 2);
             textCostUpgrade.text = "Cost: " + _cashPrice + "$";
             _gameManager.CoinsPerWave = (int)Math.Round(_gameManager.CoinsPerWave * 1.1f + 4);
-
         }
         textButtonInfo.text = "Coins Per Wave \n Current: " + _gameManager.CoinsPerWave;
     }
     
     public void CoinsPerKillUpgrade()
     {
-        
-        
         if (_sceneId == 0 && _gameManager._coinsCount >= _gameManager._coinsPerKillCost)
         {
             _gameManager.ChangeCoinsValue(-_gameManager._coinsPerKillCost);
@@ -310,7 +285,6 @@ public class Upgrades : MonoBehaviour
     
     public void CashPerWaveUpgrade()
     {
-        
         if (_sceneId == 0 && _gameManager._coinsCount >= _gameManager._cashPerWaveCost)
         {
             _gameManager.ChangeCoinsValue(-_gameManager._cashPerWaveCost);
@@ -330,8 +304,6 @@ public class Upgrades : MonoBehaviour
     
     public void CashKillUpgrade()
     {
-        
-        
         if (_sceneId == 0 && _gameManager._coinsCount >= _gameManager._cashKillCost)
         {
             _gameManager.ChangeCoinsValue(-_gameManager._cashKillCost);

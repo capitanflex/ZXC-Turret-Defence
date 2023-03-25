@@ -17,6 +17,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private List<Transform> _spawnPoints;
     [SerializeField] private TextMeshProUGUI _wavesText;
     [SerializeField] private TextMeshProUGUI _enemiesCountText;
+    [SerializeField] private TextMeshProUGUI _enemiesDamageText;
+    [SerializeField] private TextMeshProUGUI _enemiesHpText;
     
     public int waveID;
     public int _enemiesCount;
@@ -29,12 +31,20 @@ public class EnemySpawner : MonoBehaviour
     {
         StartCoroutine(DelaySpawn());
         canMove = true;
+        UpdateInfoStats();
     }
 
     private void Update()
     {
-        _wavesText.text = "Wave: " + waveID;
+        
         _enemiesCountText.text = "Enemies least: " + _enemiesCount;
+    }
+
+    private void UpdateInfoStats()
+    {
+        _wavesText.text = "Wave: " + waveID;
+        _enemiesDamageText.text = "Damage: " + _enemyDamage;
+        _enemiesHpText.text = "Enemy HP: " + _enemyHp;
     }
 
     
@@ -42,11 +52,13 @@ public class EnemySpawner : MonoBehaviour
     {
         
         waveID += 1;
-        enemyCountInWave += 5 + waveID ^ 2;
+        enemyCountInWave = 5 + waveID ^ 2;
         _enemiesCount += enemyCountInWave;
         _enemyHp = _enemyHp * 1.15f + 2;
         _enemyDamage = _enemyDamage * 1.13f + 2;
 
+        UpdateInfoStats();
+        
         if (_timeBetweenSpawn >= 0.15f)
         {
             _timeBetweenSpawn -= 0.1f;
